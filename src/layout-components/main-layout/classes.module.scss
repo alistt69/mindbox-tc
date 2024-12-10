@@ -1,0 +1,9 @@
+@use "@/styles/index";
+
+.main_layout {
+  text-align: center;
+  max-width: 1440px;
+  height: 100vh;
+  margin: 0 auto;
+  padding: calc(#{index.$index} * 200) 16px 16px;
+}

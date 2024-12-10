@@ -1,0 +1,16 @@
+@forward 'consts';
+@forward 'normalize';
+@use 'consts';
+
+body {
+  height: 100vh;
+  scroll-behavior: smooth;
+  background-color: consts.$bg-color;
+  padding: 0 20px;
+  text-rendering: optimizeSpeed;
+}
+
+::selection {
+  background-color: consts.$font-color;
+  color: consts.$bg-color;
+}

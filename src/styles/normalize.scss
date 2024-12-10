@@ -1,0 +1,28 @@
+@use 'consts';
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  list-style: none;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: 'Bebas Neue', system-ui;
+  color: consts.$font-color;
+}
+
+button {
+  cursor: pointer;
+}
+
+img {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
+svg, path {
+  color: inherit;
+}

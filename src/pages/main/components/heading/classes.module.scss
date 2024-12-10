@@ -1,0 +1,5 @@
+@use "@/styles/index";
+
+.heading {
+  font-size: calc(#{index.$index} * 140);
+}
