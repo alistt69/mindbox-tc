@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { format, parseISO, isPast, differenceInMinutes, differenceInHours } from 'date-fns';
+import { DateTimeType } from "@/pages/main/enums/date-time/index.d";
 
 interface TodoItemProps {
     todo: {
@@ -15,8 +16,8 @@ interface TodoItemProps {
 const TodoItem: React.FC<TodoItemProps> = ({ todo, toggleTodo, updateTodo }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(todo.text);
-    const [editDueDate, setEditDueDate] = useState(todo.dueDate ? format(parseISO(todo.dueDate), 'yyyy-MM-dd') : '');
-    const [editDueTime, setEditDueTime] = useState(todo.dueDate ? format(parseISO(todo.dueDate), 'HH:mm') : '');
+    const [editDueDate, setEditDueDate] = useState(todo.dueDate ? format(parseISO(todo.dueDate), DateTimeType.Date) : '');
+    const [editDueTime, setEditDueTime] = useState(todo.dueDate ? format(parseISO(todo.dueDate), DateTimeType.Time) : '');
     const [hours, setHours] = useState<number | null>(null);
     const [minutes, setMinutes] = useState<number | null>(null);
 
@@ -30,7 +31,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, toggleTodo, updateTodo }) => 
                 setHours(Math.abs(diffHours));
                 setMinutes(Math.abs(diffMinutes));
             }
-        }, 300);
+        });
 
         return () => clearInterval(interval);
     }, [todo.dueDate]);
@@ -71,7 +72,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, toggleTodo, updateTodo }) => 
                         hours !== null &&
                         minutes !== null &&
                         <span>
-                            {' '} | Due: {format(parseISO(todo.dueDate), 'yyyy-MM-dd HH:mm')} |
+                            {' '} | Due: {format(parseISO(todo.dueDate), `${DateTimeType.Date} ${DateTimeType.Time}`)} |
 
                             {isPast(parseISO(todo.dueDate)) ? (
                                 <span>

@@ -8,7 +8,7 @@
   text-decoration: none;
   box-sizing: border-box;
   font-family: 'Bebas Neue', system-ui;
-  color: consts.$font-color;
+  color: consts.$extra-dark-blue;
 }
 
 button {
@@ -25,4 +25,10 @@ img {
 
 svg, path {
   color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
 }
