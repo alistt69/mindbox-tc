@@ -1,5 +1,6 @@
 import React from "react";
 import TodoItem from "@/pages/main/components/todos/item";
+import classes from "./classes.module.scss";
 
 interface TodoListProps {
     todos: {
@@ -14,7 +15,7 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo, updateTodo }) => {
     return (
-        <ul>
+        <ul className={classes.list_container}>
             {todos.map(todo => (
                 <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} updateTodo={updateTodo} />
             ))}

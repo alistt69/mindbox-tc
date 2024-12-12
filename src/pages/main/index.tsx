@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { TodoArray } from "@/models/todo";
 import { FilterType } from "@/pages/main/enums/filter/index.d";
 import { DateTimeType } from "@/pages/main/enums/date-time/index.d";
-import { format, parseISO, isValid, isPast } from 'date-fns';
+import { format, isPast, isValid, parseISO } from 'date-fns';
 import MainLayout from "@/layout-components/main-layout";
 import Heading from "@/pages/main/components/heading";
 import TodoList from "@/pages/main/components/todos";
@@ -10,6 +10,7 @@ import DateIcon from "./assets/DateIcon.svg";
 import ClockIcon from "./assets/ClockIcon.svg"
 import DateXTimeIcon from "./assets/DateXTimeIcon.svg";
 import classes from "./classes.module.scss";
+import { formatInTimeZone } from "date-fns-tz";
 
 
 const MainPage = () => {
@@ -25,12 +26,23 @@ const MainPage = () => {
     const [showDateTimeInputs, setShowDateTimeInputs] = useState<boolean>(false);
     const [dueDate, setDueDate] = useState<string>(format(new Date(), DateTimeType.Date));
     const [dueTime, setDueTime] = useState<string>('23:59');
+    const [menuSelectorClassName, setMenuSelectorClassName] = useState('');
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos));
+
     }, [todos]);
 
     useEffect(() => {
+        setMenuSelectorClassName(() => {
+            switch (filter) {
+                case FilterType.All: return classes.is_all_filter;
+                case FilterType.Active: return classes.is_active_filter;
+                case FilterType.Completed: return classes.is_completed_filter;
+                case FilterType.WithTime: return classes.is_withTime_filter;
+            }
+        });
+
         localStorage.setItem('filter', filter);
     }, [filter]);
 
@@ -66,7 +78,9 @@ const MainPage = () => {
 
     const toggleTodo = (id: number) => {
         setTodos(todos.map(todo =>
-            todo.id === id ? { ...todo, completed: !todo.completed, completedAt: !todo.completed ? new Date().toISOString() : undefined } : todo
+            todo.id === id ? { ...todo, completed: !todo.completed, completedAt: !todo.completed ?
+                    formatInTimeZone(new Date(), Intl.DateTimeFormat().resolvedOptions().timeZone, `${DateTimeType.Date} ${DateTimeType.Time}`)
+                    : undefined } : todo
         ));
     };
 
@@ -104,6 +118,7 @@ const MainPage = () => {
         return 0;
     });
 
+
     return (
         <MainLayout>
             <Heading/>
@@ -116,6 +131,7 @@ const MainPage = () => {
                         name="add"
                         value={newTodo}
                         className={classes.input_field}
+                        maxLength={26}
                         onChange={(e) => setNewTodo(e.target.value)}
                         placeholder="Add a new todo"
                         autoComplete="off"
@@ -155,14 +171,15 @@ const MainPage = () => {
                 </div>
             </form>
 
-            <div>
-                <button onClick={() => setFilter(FilterType.All)}>All</button>
-                <button onClick={() => setFilter(FilterType.Active)}>Active</button>
-                <button onClick={() => setFilter(FilterType.Completed)}>Completed</button>
-                <button onClick={() => setFilter(FilterType.WithTime)}>With Time</button>
+            <div className={classes.filter_panel}>
+                <button onClick={() => setFilter(FilterType.All)} className={classes.all_button}>All</button>
+                <button onClick={() => setFilter(FilterType.Active)} className={classes.active_button}>Active</button>
+                <button onClick={() => setFilter(FilterType.Completed)} className={classes.completed_button}>Completed</button>
+                <button onClick={() => setFilter(FilterType.WithTime)} className={classes.withTime_button}>With Time</button>
+                <span className={`${classes.dynamic_menu_selector} ${menuSelectorClassName}`}/>
             </div>
             <TodoList todos={sortedTodos} toggleTodo={toggleTodo} updateTodo={updateTodo}/>
-            <button onClick={clearCompleted}>Clear Completed</button>
+            <button onClick={clearCompleted} className={classes.clear_bnt}>Clear Completed</button>
         </MainLayout>
     );
 };

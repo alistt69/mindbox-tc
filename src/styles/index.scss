@@ -1,5 +1,6 @@
 @forward 'consts';
 @forward 'normalize';
+@forward 'mixins';
 @use 'consts';
 
 body {
@@ -11,6 +12,6 @@ body {
 }
 
 ::selection {
-  background-color: consts.$extra-dark-blue;
+  background-color: consts.$light-blue;
   color: consts.$bg-color;
 }
