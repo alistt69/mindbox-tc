@@ -1,0 +1,184 @@
+@use "@/styles/index";
+
+
+
+.text_input_container {
+  position: relative;
+  padding: 15px 0 0;
+  margin-bottom: 8px;
+
+  .submit_btn {
+    position: absolute;
+    padding: 0 20px;
+    top: 20px;
+    right: 4px;
+    bottom: 4px;
+    font-weight: 610;
+    color: index.$bg-color;
+    background-image: index.$gradient;
+    @include index.border-mixin("right", 10px);
+    z-index: 1;
+  }
+
+  .input_field {
+    position: relative;
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 610;
+    color: index.$extra-dark-blue;
+    background: transparent;
+    @include index.border-mixin();
+    transition: all 0.2s ease-in-out;
+    &::placeholder {font-size: 0}
+
+    &:placeholder-shown ~ .input_label {
+      font-size: 15px;
+      cursor: text;
+      top: 45%;
+      color: index.$dark-blue;
+    }
+  }
+
+  .input_label {
+    display: block;
+    position: absolute;
+    top: 4px;
+    left: 13.7px;
+    font-weight: 610;
+    font-size: 12.75px;
+    color: index.$dark-blue;
+    background-color: index.$bg-color;
+    transition: 0.2s ease-in-out;
+  }
+
+  .input_field:focus {
+    ~ .input_label {
+      display: block;
+      position: absolute;
+      top: 4.8px;
+      font-size: 13.3px;
+      color: index.$extra-dark-blue;
+      transition: 0.2s ease-in-out;
+    }
+
+    border-color: index.$extra-dark-blue;
+  }
+}
+
+.date_time_panel {
+  display: flex;
+  height: 50px;
+  gap: 8px;
+  transition: all .4s ease;
+
+  .visibility_toggle {
+    @include index.border-mixin();
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    padding: 4px;
+    background-color: transparent;
+    transition: all .4s ease;
+    &.is_date_time_hidden {
+      padding: 0;
+      min-width: 100%;
+    }
+
+    > div {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: index.$gradient;
+      @include index.border-mixin($border-radius: 9px);
+
+      .icon {
+        height: 37px;
+        width: 37px;
+        padding: 5px;
+      }
+    }
+  }
+
+  .date_time_input_container {
+    display: grid;
+    grid-template-columns: auto auto;
+    width: 100%;
+    gap: 8px;
+  }
+}
+
+.date_input_container,
+.time_input_container {
+  display: inline-block;
+  position: relative;
+
+  .date_icon,
+  .time_icon {
+    position: absolute;
+    height: 32px;
+    width: 32px;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .date_field,
+  .time_field {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 2px 8px;
+    font-weight: 610;
+    font-size: 15.5px;
+    @include index.border-mixin();
+    background-color: transparent;
+    &::-webkit-clear-button {display: none};
+
+    &::-webkit-datetime-edit-day-field,
+    &::-webkit-datetime-edit-month-field,
+    &::-webkit-datetime-edit-year-field,
+    &::-webkit-datetime-edit-hour-field,
+    &::-webkit-datetime-edit-minute-field {
+      padding: 3px 12px 5px;
+      color: index.$bg-color;
+      @include index.border-mixin($border-radius: 8px);
+      background-image: index.$gradient;
+    }
+
+    &::-webkit-datetime-edit-fields-wrapper {
+      display: flex;
+      align-items: center;
+      height: 40px;
+      gap: 4px;
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      height: 22px;
+      width: 22px;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+}
+
+
+@media (max-width: 490px) {
+  .date_time_panel {
+    height: 104px;
+
+    .visibility_toggle {
+      min-width: 60px;
+      min-height: 104px;
+    }
+
+    .date_time_input_container {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

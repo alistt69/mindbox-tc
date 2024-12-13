@@ -1,0 +1,77 @@
+@use '@/styles/index';
+
+$panel-item-width: calc(682px / 4);
+$panel-item-second-width: calc(calc(100vw - 38px) / 4);
+
+.filter_panel {
+  position: relative;
+  margin: 0 auto;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  @include index.border-mixin();
+  padding: 4px;
+
+  > button {
+    padding: 7px 0;
+    border: none;
+    font-size: 14.6px;
+    background-color: transparent;
+  }
+
+  .dynamic_menu_selector {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    width: $panel-item-width;
+    @include index.border-mixin($border-radius: 8px);
+    border: none;
+    background-image: index.$light-gradient;
+    transition: all .5s ease;
+    z-index: -1;
+  }
+
+  .is_all_filter,
+  .all_button:hover ~.dynamic_menu_selector {
+    left: 4px;
+  }
+
+  .is_active_filter,
+  .active_button:hover ~.dynamic_menu_selector {
+    left: $panel-item-width;
+  }
+
+  .is_completed_filter,
+  .completed_button:hover ~.dynamic_menu_selector {
+    left: calc($panel-item-width * 2);
+  }
+
+  .is_withTime_filter,
+  .withTime_button:hover ~.dynamic_menu_selector {
+    left: calc($panel-item-width * 3);
+  }
+}
+
+@media (max-width: 720px) {
+
+  .filter_panel {
+    .dynamic_menu_selector {
+      width: $panel-item-second-width;
+    }
+
+    .is_active_filter,
+    .active_button:hover ~.dynamic_menu_selector {
+      left: $panel-item-second-width;
+    }
+
+    .is_completed_filter,
+    .completed_button:hover ~.dynamic_menu_selector {
+      left: calc($panel-item-second-width * 2);
+    }
+
+    .is_withTime_filter,
+    .withTime_button:hover ~.dynamic_menu_selector {
+      left: calc($panel-item-second-width * 3);
+    }
+  }
+}

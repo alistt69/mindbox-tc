@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { format, isPast, isValid, parseISO } from 'date-fns';
+import { formatInTimeZone } from "date-fns-tz";
 import { TodoArray } from "@/models/todo";
 import { FilterType } from "@/pages/main/enums/filter/index.d";
 import { DateTimeType } from "@/pages/main/enums/date-time/index.d";
-import { format, isPast, isValid, parseISO } from 'date-fns';
 import MainLayout from "@/layout-components/main-layout";
 import Heading from "@/pages/main/components/heading";
+import Form from "@/components/form";
 import TodoList from "@/pages/main/components/todos";
-import DateIcon from "./assets/DateIcon.svg";
-import ClockIcon from "./assets/ClockIcon.svg"
-import DateXTimeIcon from "./assets/DateXTimeIcon.svg";
-import classes from "./classes.module.scss";
-import { formatInTimeZone } from "date-fns-tz";
+import FilterPanel from "@/pages/main/components/filter-panel";
+import ClearButton from "@/pages/main/components/clear-button";
+import classes from "@/pages/main/components/filter-panel/classes.module.scss";
 
 
 const MainPage = () => {
@@ -30,7 +30,6 @@ const MainPage = () => {
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos));
-
     }, [todos]);
 
     useEffect(() => {
@@ -122,64 +121,20 @@ const MainPage = () => {
     return (
         <MainLayout>
             <Heading/>
-            <form onSubmit={addTodo} className={classes.form}>
-                <div className={classes.input_container}>
-                    <button type="submit" className={classes.submit_btn}>Add</button>
-                    <input
-                        type="input"
-                        id="add"
-                        name="add"
-                        value={newTodo}
-                        className={classes.input_field}
-                        maxLength={26}
-                        onChange={(e) => setNewTodo(e.target.value)}
-                        placeholder="Add a new todo"
-                        autoComplete="off"
-                    />
-                    <label htmlFor="add" className={classes.input_label}>What needs to be done?</label>
-                </div>
-                <div className={classes.dateXtime_panel}>
-                    <button type="button"
-                            onClick={() => setShowDateTimeInputs(!showDateTimeInputs)}
-                            className={`${classes.visibility_toggle} ${!showDateTimeInputs && classes.is_dateXtime_hidden}`}>
-                        <div>
-                            <DateXTimeIcon className={classes.icon}/>
-                        </div>
-                    </button>
-                    {showDateTimeInputs && (
-                        <div className={classes.dateXtime_input_container}>
-                            <div className={classes.date_layout}>
-                                <DateIcon className={classes.date_icon}/>
-                                <input
-                                    type="date"
-                                    value={dueDate}
-                                    className={classes.date_field}
-                                    onChange={(e) => setDueDate(e.target.value)}
-                                />
-                            </div>
-                            <div className={classes.time_layout}>
-                                <ClockIcon className={classes.time_icon}/>
-                                <input
-                                    type="time"
-                                    value={dueTime}
-                                    className={classes.time_field}
-                                    onChange={(e) => setDueTime(e.target.value)}
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </form>
-
-            <div className={classes.filter_panel}>
-                <button onClick={() => setFilter(FilterType.All)} className={classes.all_button}>All</button>
-                <button onClick={() => setFilter(FilterType.Active)} className={classes.active_button}>Active</button>
-                <button onClick={() => setFilter(FilterType.Completed)} className={classes.completed_button}>Completed</button>
-                <button onClick={() => setFilter(FilterType.WithTime)} className={classes.withTime_button}>With Time</button>
-                <span className={`${classes.dynamic_menu_selector} ${menuSelectorClassName}`}/>
-            </div>
+            <Form formType="Add"
+                  onSubmit={addTodo}
+                  textValue={newTodo}
+                  dateValue={dueDate}
+                  timeValue={dueTime}
+                  textValueOnChange={setNewTodo}
+                  dateValueOnChange={setDueDate}
+                  timeValueOnChange={setDueTime}
+                  showDateTimeInputs={showDateTimeInputs}
+                  setShowDateTimeInputs={setShowDateTimeInputs}
+            />
+            <FilterPanel setFilter={setFilter} menuSelectorClassName={menuSelectorClassName} />
             <TodoList todos={sortedTodos} toggleTodo={toggleTodo} updateTodo={updateTodo}/>
-            <button onClick={clearCompleted} className={classes.clear_bnt}>Clear Completed</button>
+            <ClearButton clearCompleted={clearCompleted} />
         </MainLayout>
     );
 };

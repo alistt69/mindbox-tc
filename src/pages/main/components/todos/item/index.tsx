@@ -3,10 +3,11 @@ import { format, parseISO, isPast, differenceInMinutes, differenceInHours } from
 import { DateTimeType } from "@/pages/main/enums/date-time/index.d";
 import { ITodoItem } from "@/models/todo";
 import classes from "./classes.module.scss";
-import EditIcon from "@/pages/main/assets/EditIcon.svg";
-import { Button, Modal } from 'antd';
-import DateIcon from "@/pages/main/assets/DateIcon.svg";
-import ClockIcon from "@/pages/main/assets/ClockIcon.svg";
+import { Modal } from 'antd';
+import Form from "@/components/form";
+import StatusToggle from "@/pages/main/components/todos/item/components/status-toggle";
+import InfoField from "@/pages/main/components/todos/item/components/info-field";
+import EditButton from "@/pages/main/components/todos/item/components/edit-button";
 
 interface TodoItemProps {
     todo: ITodoItem;
@@ -21,6 +22,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, toggleTodo, updateTodo }) => 
     const [editDueTime, setEditDueTime] = useState(todo.dueDate ? format(parseISO(todo.dueDate), DateTimeType.Time) : '');
     const [hours, setHours] = useState<number>(0);
     const [minutes, setMinutes] = useState<number>(0);
+    const isOverdue = todo.dueDate && isPast(parseISO(todo.dueDate));
+    const timeLabel = isOverdue ? "Overdue by" : "Remains";
+    const timeValue = `${hours.toString().padStart(2, '0')}h : ${minutes.toString().padStart(2, '0')}m`;
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -37,7 +41,8 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, toggleTodo, updateTodo }) => 
         return () => clearInterval(interval);
     }, [todo.dueDate]);
 
-    const handleSave = () => {
+    const handleSave = (e: React.FormEvent) => {
+        e.stopPropagation();
         const newDueDate = editDueDate && editDueTime ? `${editDueDate}T${editDueTime}` : undefined;
         updateTodo(todo.id, editText, newDueDate);
         setIsEditing(false);
@@ -46,102 +51,40 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, toggleTodo, updateTodo }) => 
     return (
         <>
             <Modal
-                title={"Edit Your ToDo"}
+                title="Edit Your ToDo"
                 centered
                 open={isEditing}
-                onOk={() => {
-                    setIsEditing(false)
-                    handleSave()
-                }}
+                onOk={handleSave}
                 onCancel={() => setIsEditing(false)}>
-                <form onSubmit={handleSave}>
-                    <div className={classes.input_container}>
-                        <button type="submit" className={classes.submit_btn}>Save</button>
-                        <input
-                            type="input"
-                            id="add"
-                            name="add"
-                            maxLength={26}
-                            value={editText}
-                            className={classes.input_field}
-                            onChange={(e) => setEditText(e.target.value)}
-                            placeholder="Add a new todo"
-                            autoComplete="off"
-                        />
-                        <label htmlFor="add" className={classes.input_label}>What needs to be done?</label>
-                    </div>
-                    <div className={classes.dateXtime_input_container}>
-
-                        <div className={classes.date_layout}>
-                            <DateIcon className={classes.date_icon}/>
-                            <input
-                                type="date"
-                                value={editDueDate}
-                                className={classes.date_field}
-                                onChange={(e) => setEditDueDate(e.target.value)}
-                            />
-                        </div>
-                        <div className={classes.time_layout}>
-                            <ClockIcon className={classes.time_icon}/>
-                            <input
-                                type="time"
-                                value={editDueTime}
-                                className={classes.time_field}
-                                onChange={(e) => setEditDueTime(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                </form>
+                <Form formType="Save"
+                      onSubmit={handleSave}
+                      textValue={editText}
+                      dateValue={editDueDate}
+                      timeValue={editDueTime}
+                      textValueOnChange={setEditText}
+                      dateValueOnChange={setEditDueDate}
+                      timeValueOnChange={setEditDueTime}
+                />
             </Modal>
-            <div
-                className={`${classes.item_container} ${todo.completed && classes.is_completed} ${isPast(parseISO(todo.dueDate || '')) && !todo.completed && classes.is_overdue}`}>
-                <div className={classes.status_toggle_container}>
-                    <button onClick={() => toggleTodo(todo.id)} className={classes.status_toggle}>
-                        <div className={classes.toggle_animator}/>
-                    </button>
-                </div>
-                <div className={classes.text_container}>
-                    <span className={classes.text}>{todo.text}</span>
+            <div className={`${classes.item_container} ${todo.completed && classes.is_completed} ${isPast(parseISO(todo.dueDate || '')) && !todo.completed && classes.is_overdue}`}>
+                <StatusToggle todo={todo} toggleTodo={toggleTodo} />
+                <div className={classes.card_text_container}>
+                    <span className={classes.card_title}>{todo.text}</span><br/>
                     {todo.dueDate && (
-                        <div className={classes.info_container}>
-                            <span className={classes.info_field}>
-                                Due:
-                                <span>{format(parseISO(todo.dueDate), `${DateTimeType.Date} ${DateTimeType.Time}`)}</span>
-                            </span>
-                            <span className={classes.timeleftXedirbtn_container}>
-                                {todo.completed && todo.completedAt ? (
-                                    <span
-                                        className={classes.info_field}>Done at: {todo.completedAt.toLocaleString()}</span>
-                                ) : (
-                                    <>
-                                        {todo.dueDate && isPast(parseISO(todo.dueDate)) ? (
-                                            <span className={classes.info_field}>
-                                                Overdue by: {" "}
-                                                <span
-                                                    className="hours">{hours.toString().padStart(2, '0')}h</span> :
-                                                <span
-                                                    className="minutes">{minutes.toString().padStart(2, '0')}m</span>
-                                            </span>
-                                        ) : (
-                                            <span className={classes.info_field}>
-                                                Remains: {" "}
-                                                <span
-                                                    className={classes.time_left_hours}>{hours.toString().padStart(2, '0')}h</span> :
-                                                <span
-                                                    className={classes.time_left_minutes}>{minutes.toString().padStart(2, '0')}m</span>
-                                            </span>
-                                        )}
-                                    </>
-                                )}
-                            </span>
+                        <div className={classes.card_info}>
+                            <InfoField
+                                label="Due"
+                                value={format(parseISO(todo.dueDate), `${DateTimeType.Date} ${DateTimeType.Time}`)}
+                            />
+                            <br/>
+                            <InfoField
+                                label={todo.completed && todo.completedAt ? "Done at" : timeLabel}
+                                value={todo.completed && todo.completedAt ? todo.completedAt.toLocaleString() : timeValue}
+                            />
                         </div>
                     )}
                 </div>
-                {!todo.completed &&
-                    <button onClick={() => setIsEditing(true)} className={classes.edit_button}>
-                        <EditIcon/>
-                    </button>
-                }
+                <EditButton todo={todo} setIsEditing={setIsEditing} />
             </div>
         </>
     );

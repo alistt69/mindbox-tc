@@ -1,11 +1,21 @@
 @use "@/styles/index";
 
 .list_container {
-  margin-top: 8px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(264px, 1fr));
   gap: 4px;
   max-height: 50vh;
   overflow-y: auto;
   overflow-x: visible;
+}
+
+.no_data_attribute {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: capitalize;
+  font-weight: 610;
+  background-image: index.$light-gradient;
+  border-radius: 12px;
+  height: 50px;
 }

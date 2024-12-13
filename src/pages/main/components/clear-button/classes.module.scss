@@ -1,0 +1,9 @@
+@use "@/styles/index";
+
+.clear_bnt {
+  height: 50px;
+  font-weight: 610;
+  color: index.$bg-color;
+  @include index.border-mixin();
+  background-image: index.$gradient;
+}

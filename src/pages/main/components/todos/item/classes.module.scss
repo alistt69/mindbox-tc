@@ -5,267 +5,37 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-size: 13px;
   padding: 12px;
-  border-radius: 12px;
+  font-size: 13px;
   border: none;
-  background-image: linear-gradient(to right bottom, rgba(125, 125, 211, 0.29), rgba(157, 157, 218, 0.29));
+  border-radius: 12px;
+  background-image: index.$light-gradient;
   transition: all .5s ease;
-
-  &:hover {
-    .edit_button {
-      opacity: 1;
-    }
-  }
-
-  .status_toggle_container {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 12px;
-    left: 12px;
-    height: 26px;
-    width: 26px;
-    background-color: rgba(0, 0, 108, 0.2);
-    border-radius: 8px;
-
-    .status_toggle {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      border: none;
-      border-radius: 50%;
-      height: 16px;
-      width: 16px;
-
-      .toggle_animator {
-        position: absolute;
-        border-radius: 50%;
-        top: 100%;
-        left: 100%;
-        bottom: 100%;
-        right: 100%;
-        background-color: rgba(0, 143, 40, 0.35);
-        transition: all .4s linear;
-      }
-    }
-  }
-
-  .text_container {
-    margin-left: 32px;
-    text-align: start;
-  }
-
-  .text {
-    background-color: rgba(0, 0, 108, 0.2);
-    color: index.$bg-color;
-    font-weight: 610;
-    border-radius: 8px;
-    font-size: 20px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-    hyphens: auto;
-    padding: 0 5px;
-  }
-
-  .info_container {
-    font-size: 13px;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-
-    .info_field {
-      background-image: linear-gradient(to right bottom, rgba(140, 140, 217, 0.29), rgba(121, 121, 189, 0.29));
-      display: inline-flex;
-      max-width: 190px;
-      gap: 4px;
-      //color: index.$bg-color;
-      border-radius: 6px;
-      padding: 3px 8px;
-
-      span {
-        display: inline-block;
-        //color: index.$bg-color;
-      }
-    }
-  }
-
-  .edit_button {
-    opacity: 0;
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border: none;
-    height: 24px;
-    transition: all .2s ease-in-out;
-
-    &:hover {
-      > svg {
-        transform: scale(1.15);
-      }
-    }
-
-    > svg {
-      transition: all .2s ease-in-out;
-      height: 24px;
-      width: 24px;
-    }
-  }
-
-  &.is_overdue {
-
-    .status_toggle_container > .status_toggle > .toggle_animator {
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background-color: rgba(224, 109, 109, 0.8);
-    }
-  }
 
   &.is_completed {
     opacity: .7;
-    .status_toggle_container > .status_toggle > .toggle_animator {
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-    }
   }
-}
 
-.dateXtime_input_container {
-  display: grid;
-  grid-template-columns: auto auto;
-  width: 100%;
-  gap: 8px;
+  .card_text_container {
+    text-align: start;
+    margin-left: 32px;
 
-  .date_layout,
-  .time_layout {
-    display: inline-block;
-    position: relative;
-
-    .date_icon,
-    .time_icon {
-      position: absolute;
-      height: 32px;
-      width: 32px;
-      top: 50%;
-      right: 6px;
-      transform: translateY(-50%);
-      pointer-events: none;
-    }
-
-    .date_field,
-    .time_field {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      padding: 2px 8px;
+    .card_title {
+      padding: 0 5px;
+      color: index.$bg-color;
       font-weight: 610;
-      font-size: 15.5px;
-      @include index.border-mixin();
-      background-color: transparent;
-      &::-webkit-clear-button {display: none};
-
-      &::-webkit-datetime-edit-day-field,
-      &::-webkit-datetime-edit-month-field,
-      &::-webkit-datetime-edit-year-field,
-      &::-webkit-datetime-edit-hour-field,
-      &::-webkit-datetime-edit-minute-field {
-        padding: 3px 12px 5px;
-        color: white;
-        @include index.border-mixin($border-radius: 8px);
-        background-image: index.$gradient;
-      }
-
-      &::-webkit-datetime-edit-fields-wrapper {
-        display: flex;
-        align-items: center;
-        height: 40px;
-        gap: 4px;
-      }
-
-      &::-webkit-calendar-picker-indicator {
-        height: 22px;
-        width: 22px;
-        opacity: 0;
-        cursor: pointer;
-      }
-    }
-  }
-}
-
-.input_container {
-  position: relative;
-  padding: 15px 0 0;
-  margin-bottom: 8px;
-
-  .submit_btn {
-    position: absolute;
-    padding: 0 20px;
-    top: 20px;
-    right: 4px;
-    bottom: 4px;
-    font-weight: 610;
-    color: white;
-    background-image: index.$gradient;
-    @include index.border-mixin("right", 10px);
-    z-index: 1;
-  }
-
-  .input_field {
-    position: relative;
-    width: 100%;
-    padding: 12px;
-    font-size: 15px;
-    font-weight: 610;
-    color: index.$extra-dark-blue;
-    background: transparent;
-    @include index.border-mixin();
-    transition: all 0.2s ease-in-out;
-    &::placeholder {font-size: 0}
-
-    &:placeholder-shown ~ .input_label {
-      font-size: 15px;
-      cursor: text;
-      top: 45%;
-      color: index.$dark-blue;
-    }
-  }
-
-  .input_label {
-    //font-family: 'Bebas Neue', cursive; //TODO: try it in the end
-    display: block;
-    position: absolute;
-    top: 4px;
-    left: 13.7px;
-    font-weight: 610;
-    font-size: 12.75px;
-    color: index.$dark-blue;
-    background-color: white;
-    transition: 0.2s ease-in-out;
-  }
-
-  .input_field:focus {
-    ~ .input_label {
-      display: block;
-      position: absolute;
-      top: 4.8px;
-      font-size: 13.3px;
-      color: index.$extra-dark-blue;
-      transition: 0.2s ease-in-out;
+      font-size: 20px;
+      hyphens: auto;
+      white-space: normal;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      border-radius: 8px;
+      background-color: rgba(0, 0, 108, 0.2);
     }
 
-    border-color: index.$extra-dark-blue;
+    .card_info {
+      font-size: 13px;
+      margin-top: 10px;
+    }
   }
 }

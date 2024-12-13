@@ -15,11 +15,17 @@ interface TodoListProps {
 
 const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo, updateTodo }) => {
     return (
-        <ul className={classes.list_container}>
-            {todos.map(todo => (
-                <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} updateTodo={updateTodo} />
-            ))}
-        </ul>
+        <>
+            {todos.length ? (
+                <ul className={classes.list_container}>
+                    {todos.map(todo => (
+                        <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} updateTodo={updateTodo} />
+                    ))}
+                </ul>
+            ) : (
+                <div className={classes.no_data_attribute}>nothing here yet!</div>
+            )}
+        </>
     );
 };
 
