@@ -13,7 +13,7 @@ import ClearButton from "@/pages/main/components/clear-button";
 import classes from "@/pages/main/components/filter-panel/classes.module.scss";
 
 
-const MainPage = () => {
+const MainPage: React.FC = () => {
     const [todos, setTodos] = useState<TodoArray>(() => {
         const savedTodos = localStorage.getItem('todos');
         return savedTodos ? JSON.parse(savedTodos) : [];

@@ -1,6 +1,7 @@
+import React from 'react';
 import classes from "./classes.module.scss";
 
-const Heading = () => {
+const Heading: React.FC = () => {
     return(
         <p className={classes.heading}>
             todos
