@@ -12,12 +12,12 @@
   transition: all .2s ease-in-out;
 
   &:hover {
-    > svg {
+    > img {
       transform: scale(1.15);
     }
   }
 
-  > svg {
+  > img {
     width: 24px;
     height: 24px;
     transition: all .2s ease-in-out;

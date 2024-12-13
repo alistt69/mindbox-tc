@@ -1,16 +1,15 @@
-@forward 'consts';
-@forward 'normalize';
-@forward 'mixins';
-@use 'consts';
+@import 'consts';
+@import 'normalize';
+@import 'mixins';
 
 body {
   height: 100vh;
   scroll-behavior: smooth;
-  background-color: consts.$bg-color;
+  background-color: $bg-color;
   text-rendering: optimizeSpeed;
 }
 
 ::selection {
-  background-color: consts.$light-blue;
-  color: consts.$bg-color;
+  background-color: $light-blue;
+  color: $bg-color;
 }

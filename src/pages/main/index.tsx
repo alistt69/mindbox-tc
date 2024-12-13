@@ -10,7 +10,7 @@ import Form from "@/components/form";
 import TodoList from "@/pages/main/components/todos";
 import FilterPanel from "@/pages/main/components/filter-panel";
 import ClearButton from "@/pages/main/components/clear-button";
-import classes from "@/pages/main/components/filter-panel/classes.module.scss";
+import classes from "../main/components/filter-panel/classes.module.scss";
 
 
 const MainPage: React.FC = () => {

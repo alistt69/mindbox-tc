@@ -1,23 +1,30 @@
+// @ts-ignore
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import MainPage from '@/pages/main';
 
 describe('MainPage', () => {
-    test('должен рендериться без ошибок и содержать кнопку "Add"', () => {
+    test('должен рендериться без ошибок и содержать кнопку "Add"', async () => {
         render(<MainPage />);
-        const addButton = screen.getByText(/Add/i);
-        expect(addButton).toBeInTheDocument();
+
+        await waitFor(() => {
+            const addButton = screen.getByText(/Add/i);
+            expect(addButton).toBeInTheDocument();
+        });
     });
 
-    test('должен добавлять новое задание', () => {
+    test('должен добавлять новое задание', async () => {
         render(<MainPage />);
-        const input = screen.getByPlaceholderText(/Введите задание/i);
+
+        const input = screen.getByPlaceholderText(/Add/i);
         const addButton = screen.getByText(/Add/i);
 
         fireEvent.change(input, { target: { value: 'Новое задание' } });
         fireEvent.click(addButton);
 
-        const newTodo = screen.getByText(/Новое задание/i);
-        expect(newTodo).toBeInTheDocument();
+        await waitFor(() => {
+            const newTodo = screen.getByText(/Новое задание/i);
+            expect(newTodo).toBeInTheDocument();
+        });
     });
 });

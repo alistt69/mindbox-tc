@@ -1,7 +1,7 @@
-import React, { Dispatch, SetStateAction } from "react";
-import DateIcon from "@/pages/main/assets/DateIcon.svg";
-import ClockIcon from "@/pages/main/assets/ClockIcon.svg";
-import DateXTimeIcon from "@/pages/main/assets/DateXTimeIcon.svg";
+import React, { Dispatch, SetStateAction } from "react";/*
+import date_icon from "@/pages/main/assets/date_icon.png";
+import clock_icon from "@/pages/main/assets/clock_icon.png";
+import date_time_icon from "@/pages/main/assets/date_time_icon.png";*/
 import classes from "./classes.module.scss";
 
 interface FormProps {
@@ -41,13 +41,13 @@ const Form: React.FC<FormProps> = ({ formType, onSubmit, textValue, dateValue, t
                             onClick={() => setShowDateTimeInputs(!showDateTimeInputs)}
                             className={`${classes.visibility_toggle} ${!showDateTimeInputs && classes.is_date_time_hidden}`}
                     >
-                        <div><DateXTimeIcon className={classes.icon}/></div>
+                        <div>{/*<img src={date_time_icon} className={classes.icon}/>*/}</div>
                     </button>
                 )}
                 {(setShowDateTimeInputs && showDateTimeInputs) || !setShowDateTimeInputs ? (
                     <div className={classes.date_time_input_container}>
                         <div className={classes.date_input_container}>
-                            <DateIcon className={classes.date_icon}/>
+                            {/*<img src={date_icon} className={classes.date_icon}/>*/}
                             <input
                                 type="date"
                                 value={dateValue}
@@ -56,7 +56,7 @@ const Form: React.FC<FormProps> = ({ formType, onSubmit, textValue, dateValue, t
                             />
                         </div>
                         <div className={classes.time_input_container}>
-                            <ClockIcon className={classes.time_icon}/>
+                            {/*<img src={clock_icon} className={classes.time_icon}/>*/}
                             <input
                                 type="time"
                                 value={timeValue}

@@ -1,7 +1,7 @@
-@use 'consts';
+@import 'consts';
 
 @mixin border-mixin($border-position: "all", $border-radius: 12px) {
-  border: 1.5px solid consts.$dark-blue;
+  border: 1.5px solid $dark-blue;
 
   @if $border-position == "all" {
     border-radius: $border-radius;

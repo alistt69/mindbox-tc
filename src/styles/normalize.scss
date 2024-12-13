@@ -1,4 +1,4 @@
-@use 'consts';
+@import 'consts';
 
 * {
   margin: 0;
@@ -8,7 +8,7 @@
   text-decoration: none;
   box-sizing: border-box;
   font-family: 'Bebas Neue', system-ui;
-  color: consts.$extra-dark-blue;
+  color: $extra-dark-blue;
 }
 
 button {
