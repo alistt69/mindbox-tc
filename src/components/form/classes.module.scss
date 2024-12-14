@@ -178,5 +178,10 @@
       display: flex;
       flex-direction: column;
     }
+
+    .date_input_container,
+    .time_input_container {
+      min-height: 50px;
+    }
   }
 }
