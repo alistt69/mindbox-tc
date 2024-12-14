@@ -7,7 +7,7 @@ const EditButton: React.FC<{ todo: ITodoItem, setIsEditing: Dispatch<SetStateAct
     return (
         <>
             {!todo.completed &&
-                <button onClick={() => setIsEditing(true)} className={classes.edit_button}>
+                <button onClick={() => setIsEditing(true)} className={classes.edit_button} data-testid={`edit-button-${todo.text}`}>
                     <img src={edit_icon} />
                 </button>
             }
